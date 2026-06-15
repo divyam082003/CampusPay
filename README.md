@@ -3,20 +3,20 @@
 ---
 
 <p align="center">
-  <img src="./Screenshots/splash.jpeg" width="220" alt="Splash Screen" />
-  <img src="./Screenshots/onbaording.jpeg" width="220" alt="Onboarding Screen" />
-  <img src="./Screenshots/register.jpeg" width="220" alt="Registration Screen" />
-   <img src="./Screenshots/login.jpeg" width="220" alt="Login Screen" />
-  <img src="./Screenshots/dashboard1.jpeg" width="220" alt="Home Screen" />
-  <img src="./Screenshots/dashboard2.jpeg" width="220" alt="Home Screen" />
-   <img src="./Screenshots/qr_scan.jpeg" width="220" alt="QR Scanner" />
-  <img src="./Screenshots/pin_setup.jpeg" width="220" alt="PIN SETUP" />
-  <img src="./Screenshots/qr_amount.jpeg" width="220" alt="QR Amount" />
-   <img src="./Screenshots/payment_summary.jpeg" width="220" alt="Payment" />
-   <img src="./Screenshots/payment_screen.jpeg" width="220" alt="PIN VERIFY" />
-  <img src="./Screenshots/payment_sucess.jpeg" width="220" alt="Sucess Screen" />
-   <img src="./Screenshots/transaction.jpeg" width="220" alt="Transaction" />
-   <img src="./Screenshots/profile.jpeg" width="220" alt="Profile" />
+  <img src="./Screenshots/splash.jpeg" width="180" height="390" alt="Splash Screen" />
+  <img src="./Screenshots/onbaording.jpeg" width="180" height="390" alt="Onboarding Screen" />
+  <img src="./Screenshots/register.jpeg" width="180" height="390" alt="Registration Screen" />
+   <img src="./Screenshots/login.jpeg" width="180" height="390" alt="Login Screen" />
+  <img src="./Screenshots/dashboard1.jpeg" width="180" height="390" alt="Home Screen" />
+  <img src="./Screenshots/dashboard2.jpeg" width="180" height="390" alt="Home Screen" />
+   <img src="./Screenshots/qr_scan.jpeg" width="180" height="390" alt="QR Scanner" />
+  <img src="./Screenshots/pin_setup.jpeg" width="180" height="390" alt="PIN SETUP" />
+  <img src="./Screenshots/qr_amount.jpeg" width="180" height="390" alt="QR Amount" />
+   <img src="./Screenshots/payment_summary.jpeg" width="180" height="390" alt="Payment" />
+   <img src="./Screenshots/payment_screen.jpeg" width="180" height="390" alt="PIN VERIFY" />
+  <img src="./Screenshots/payment_sucess.jpeg" width="180" height="390" alt="Sucess Screen" />
+   <img src="./Screenshots/transaction.jpeg" width="180" height="390" alt="Transaction" />
+   <img src="./Screenshots/profile.jpeg" width="180" height="390" alt="Profile" />
 </p>
 
 <h3 align="center">
