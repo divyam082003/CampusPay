@@ -1,8 +1,22 @@
 import { router } from 'expo-router';
+import { Lock, Mail } from 'lucide-react-native';
 import { useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { getUser } from '../services/storage';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import {
+  getUsers,
+  loginUser
+} from '../services/storage';
 
+import { hp, wp } from "@/utils/responsive";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -11,112 +25,197 @@ export default function LoginScreen() {
   const handleLogin = async () => {
 
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill all fields');
+      Toast.show({
+        type: 'error',
+        text1: 'Missing Fields',
+        text2: 'Please fill all fields',
+      });
       return;
     }
 
-    const storedUser = await getUser();
+    const users = await getUsers();
 
-    if (!storedUser) {
-      Alert.alert(
-        'No Account Found',
-        'Please register first'
-      );
-      return;
-    }
+    const foundUser = users.find(
+      (user: any) =>
+        user.email === email &&
+        user.password === password
+    );
+    if (foundUser) {
 
-    if (
-      email === storedUser.email &&
-      password === storedUser.password
-    ) {
-      Alert.alert('Success', 'Login Successful');
+      console.log("FOUND USER =>", foundUser);
+
+      await loginUser(foundUser);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Login Successful',
+      });
 
       router.replace('/dashboard');
+
     } else {
-      Alert.alert(
-        'Invalid Credentials',
-        'Email or Password is incorrect'
-      );
+
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Credentials',
+      });
     }
   };
 
   return (
-    <View
-      style={styles.container}>
-      <>
-        <Text style={styles.title}> CampusPay Login </Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#208AEF" }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            <>
 
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          style={styles.input}
-          keyboardType="email-address"
-        />
+              <Image
+                source={require('../../assets/svgs/login.png')}
+                style={styles.gif}
+              />
 
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          style={styles.input}
-          secureTextEntry
-        />
+              <Text style={styles.title}>
+                CampusPay Login
+              </Text>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleLogin}
-        >
-          <Text style={styles.buttonText}>LogIn</Text>
-        </TouchableOpacity>
+              <View style={styles.inputContainer}>
+                <Mail
+                  size={20}
+                  color="#208AEF"
+                />
 
-        <Text style={styles.registerTitle}> Don't have an account? Register </Text>
+                <TextInput
+                  placeholder="Email"
+                  placeholderTextColor="#777"
+                  value={email}
+                  onChangeText={setEmail}
+                  style={styles.textInput}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+              </View>
 
-      </>
-    </View>
+              <View style={styles.inputContainer}>
+                <Lock
+                  size={20}
+                  color="#208AEF"
+                />
+
+                <TextInput
+                  placeholder="Password"
+                  placeholderTextColor="#777"
+                  value={password}
+                  onChangeText={setPassword}
+                  style={styles.textInput}
+                  secureTextEntry
+                />
+              </View>
+
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleLogin}
+              >
+                <Text style={styles.buttonText}>LogIn</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => router.push('/register')}
+              >
+                <Text style={styles.registerTitle}>
+                  New User? Register Here
+                </Text>
+              </TouchableOpacity>
+
+            </>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
 
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: wp(6),
+    paddingVertical: hp(3),
   },
+
+  gif: {
+    width: wp(45),
+    height: wp(45),
+    resizeMode: "contain",
+    marginBottom: hp(2),
+  },
+
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: wp(7),
+    fontWeight: "700",
+    color: "#FFFFFF",
+    marginBottom: hp(1.5),
+  },
+
+  subtitle: {
+    fontSize: 18,
+    color: '#D6E8FF',
     marginBottom: 30,
   },
 
   input: {
-    width: '85%',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 12,
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    padding: 16,
+    marginTop: 10,
     marginBottom: 15,
+    fontSize: 16
+  },
+
+  inputContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: wp(3.5),
+    paddingHorizontal: wp(4),
+    marginBottom: hp(1.8),
+  },
+
+  textInput: {
+    flex: 1,
+    paddingVertical: hp(1.8),
+    paddingHorizontal: wp(3),
+    fontSize: wp(4),
   },
 
   button: {
-    width: '85%',
-    backgroundColor: '#2196F3',
-    padding: 14,
-    borderRadius: 8,
-    alignItems: 'center',
+    width: "100%",
+    backgroundColor: "#1565C0",
+    paddingVertical: hp(1.8),
+    borderRadius: wp(3.5),
+    alignItems: "center",
+    marginTop: hp(1),
   },
 
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
+    color: "#FFFFFF",
+    fontSize: wp(4.5),
+    fontWeight: "700",
   },
+
   registerTitle: {
-    fontSize: 16,
-    fontWeight: 'thin',
-    marginTop: 20,
-    marginBottom: 30,
-    color: '#137dee'
+    marginTop: hp(3),
+    color: "#FFFFFF",
+    fontSize: wp(4),
   },
 });
